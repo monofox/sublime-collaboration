@@ -84,7 +84,10 @@ class CollabSession(object):
             self.handle_opencreatesnapshot(query, callback)
 
         elif 'remove' in query:
-            self.send({'doc': query['doc'], 'open': False})
+            print('Got remove query!!!!')
+            self.model.remove_listener(query['doc'], self.docs[query['doc']]['listener'])
+            del self.docs[query['doc']]['listener']
+            self.send({'doc':query['doc'], 'open':False})
             self.model.remove_doc(query['doc'])
             return callback() if callback else None
 

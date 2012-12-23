@@ -81,7 +81,7 @@ class CollabDoc():
 
     def remove(self, callback=None):
         self.connection.send(
-            {'doc': self.name, 'open': False, 'remove': True}
+            {'doc': self.name, 'remove': True}
         )
         self.set_state('deleting')
 
