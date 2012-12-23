@@ -122,7 +122,7 @@ class ServerSocket(threading.Thread):
                 break
             if data is None or data == "":
                 break
-            #print('Server Recieved from {0}:{1}'.format(self.address, data))
+            print('Server Recieved from {0}:{1}'.format(self.address, data))
             if self.target_size:
                 self.saved_data += data
                 if len(self.saved_data) == self.target_size:

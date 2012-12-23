@@ -70,8 +70,13 @@ class CollabModel(object):
         callback(None)
 
     def remove_doc(self, docname):
+        print('Removing doc {0}'.format(docname))
         if docname in self.docs:
             del(self.docs[docname])
+            print('Removed doc {0} in model'.format(docname))
+        else:
+            print('Doc {0} not available'.format(docname))
+
 
     def exists(self, docname):
         return docname in self.docs

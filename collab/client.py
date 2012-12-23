@@ -106,7 +106,7 @@ class CollabClient:
 
         if name in self.docs:
             self.docs[name].remove()
-            del self.docs[name]
+            #del self.docs[name]
 
     def open(self, name, callback, **kwargs):
         if self.state is 'closed':

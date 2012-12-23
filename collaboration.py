@@ -194,7 +194,7 @@ class SublimeCollaboration(object):
             if items:
                 sublime.set_timeout(lambda: sublime.active_window().show_quick_panel(items, lambda x: None if x < 0 else self.open(items[x])), 0)
             else:
-                sublime.error_message("No documents availible to open")
+                sublime.error_message("No documents available to open")
 
     def remove_get_docs(self, error, items):
         global client
@@ -205,7 +205,7 @@ class SublimeCollaboration(object):
             if items:
                 sublime.set_timeout(lambda: sublime.active_window().show_quick_panel(items, lambda x: None if x < 0 else self.remove(items[x])), 0)
             else:
-                sublime.error_message("No documents availible to close")
+                sublime.error_message("No documents available to remove")
 
     def open(self, name):
         global client
@@ -218,6 +218,7 @@ class SublimeCollaboration(object):
         global client
         if not client: return
         view = sublime.active_window().active_view()
+        print("will remove {0}".format(name))
         client.remove(name, lambda error, doc: self.add_callback(view, error, doc))
 
     def add_current(self, name):
