@@ -33,6 +33,8 @@ class CollabSession(object):
             error = 'doc name invalid or missing'
         if 'create' in query and query['create'] is not True:
             error = "'create' must be True or missing"
+        if 'remove' in query and query['remove'] is not True:
+            error = "'remove' must be True or missing"
         if 'open' in query and query['open'] not in [True, False]:
             error = "'open' must be True, False or missing"
         if 'v' in query and (not isinstance(query['v'], (int, float)) or query['v'] < 0):
@@ -80,6 +82,11 @@ class CollabSession(object):
 
         elif 'open' in query or ('snapshot' in query and query['snapshot'] is None) or 'create' in query:
             self.handle_opencreatesnapshot(query, callback)
+
+        elif 'remove' in query:
+            self.send({'doc': query['doc'], 'open': False})
+            self.model.remove_doc(query['doc'])
+            return callback() if callback else None
 
         elif 'op' in query and 'v' in query:
             def apply_op(error, appliedVersion):

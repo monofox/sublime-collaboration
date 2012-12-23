@@ -97,6 +97,17 @@ class CollabClient:
             self.send({"docs":None})
         self.waiting_for_docs.append(callback)
 
+    def remove(self, name, callback, **kwargs):
+        if self.state is 'closed':
+            return callback('connection closed', None)
+
+        if self.state is 'connecting':
+            return self.on('ok', lambda x: self.remove(name, callback))
+
+        if name in self.docs:
+            self.docs[name].remove()
+            del self.docs[name]
+
     def open(self, name, callback, **kwargs):
         if self.state is 'closed':
             return callback('connection closed', None)

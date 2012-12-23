@@ -18,5 +18,9 @@
     {
         "caption": "Collaboration: Add Current Document",
         "command": "collab_add_current_document"
+    },
+    {
+        "caption": "Collaboration: Remove Document",
+        "command": "collab_remove_current_document"
     }
 ]

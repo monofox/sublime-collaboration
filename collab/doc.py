@@ -21,6 +21,7 @@ class CollabDoc():
         self.server_ops = {}
 
         self._open_callback = None
+        self._remove_callback = None
 
     def on(self, event, fct):
         if event not in self._events: self._events[event] = []
@@ -77,6 +78,14 @@ class CollabDoc():
         self.set_state('opening')
 
         self._open_callback = callback
+
+    def remove(self, callback=None):
+        self.connection.send(
+            {'doc': self.name, 'open': False, 'remove': True}
+        )
+        self.set_state('deleting')
+
+        self._remove_callback = callback
 
     def close(self):
         self.connection.send({'doc':self.name, 'open':False})

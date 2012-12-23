@@ -196,12 +196,29 @@ class SublimeCollaboration(object):
             else:
                 sublime.error_message("No documents availible to open")
 
+    def remove_get_docs(self, error, items):
+        global client
+        if not client: return
+        if error:
+            sublime.error_message("Error retrieving document names: {0}".format(error))
+        else:
+            if items:
+                sublime.set_timeout(lambda: sublime.active_window().show_quick_panel(items, lambda x: None if x < 0 else self.remove(items[x])), 0)
+            else:
+                sublime.error_message("No documents availible to close")
+
     def open(self, name):
         global client
         if not client: return
         if name in editors:
             return editors[name].focus()
         client.open(name, self.open_callback)
+
+    def remove(self, name):
+        global client
+        if not client: return
+        view = sublime.active_window().active_view()
+        client.remove(name, lambda error, doc: self.add_callback(view, error, doc))
 
     def add_current(self, name):
         global client
@@ -278,6 +295,15 @@ class CollabAddCurrentDocumentCommand(sublime_plugin.ApplicationCommand, Sublime
         if sublime.active_window() == None: return
         if sublime.active_window().active_view() == None: return
         sublime.active_window().show_input_panel("Enter new document name:", sublime.active_window().active_view().name(), self.add_current, None, None)
+    def is_enabled(self):
+        global client
+        return client
+
+class CollabRemoveCurrentDocumentCommand(sublime_plugin.ApplicationCommand, SublimeCollaboration):
+    def run(self):
+        global client
+        if not client: return
+        client.get_docs(self.remove_get_docs)
     def is_enabled(self):
         global client
         return client

@@ -69,6 +69,10 @@ class CollabModel(object):
             pass
         callback(None)
 
+    def remove_doc(self, docname):
+        if docname in self.docs:
+            del(self.docs[docname])
+
     def exists(self, docname):
         return docname in self.docs
 
